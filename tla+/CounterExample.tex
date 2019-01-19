@@ -1,0 +1,81 @@
+\tlatex
+\setboolean{shading}{true}
+\@x{}\moduleLeftDash\@xx{ {\MODULE} CounterExample}\moduleRightDash\@xx{}%
+\@pvspace{8.0pt}%
+\@x{ {\EXTENDS} EgalitarianPaxos ,\, TLC}%
+\@pvspace{8.0pt}%
+\@x{}\midbar\@xx{}%
+\@pvspace{8.0pt}%
+\@x{ {\CONSTANTS} p1 ,\, p2 ,\, p3 ,\, c1 ,\, c2}%
+\@x{ {\VARIABLES} HIndex}%
+\@pvspace{8.0pt}%
+\@x{ MCReplicas \.{\defeq}\@s{4.1} \{ p1 ,\, p2 ,\, p3 \}}%
+\@x{ MCCommands \.{\defeq} \{ c1 ,\, c2 \}}%
+ \@x{ MCFastQuorums ( X ) \.{\defeq} {\IF} X \.{=} p1 \.{\THEN} \{ \{ p1 ,\,
+ p3 \} \}}%
+\@x{ \.{\ELSE} {\IF} X \.{=} p2 \.{\THEN} \{ \{ p1 ,\, p2 \} \}}%
+\@x{ \.{\ELSE} \{ \{ p2 ,\, p3 \} \}}%
+\@x{ MCSlowQuorums ( X ) \.{\defeq} MCFastQuorums ( X )}%
+\@x{ MCMaxBallot \.{\defeq} 5}%
+\@pvspace{8.0pt}%
+\@x{ AdvanceHistory ( pos ) \.{\defeq} \.{\land} HIndex \.{=} pos}%
+\@x{ \.{\land} HIndex \.{'} \.{=} HIndex \.{+} 1}%
+\@pvspace{8.0pt}%
+\@x{ NewInit \.{\defeq}}%
+\@x{\@s{8.2} \.{\land} HIndex \.{=} 1}%
+\@x{\@s{8.2} \.{\land} sentMsg \.{=} \{ \}}%
+\@x{\@s{8.2} \.{\land} cmdLog \.{=} [ r \.{\in} Replicas \.{\mapsto} \{ \} ]}%
+\@x{\@s{8.2} \.{\land} proposed \.{=} \{ \}}%
+ \@x{\@s{8.2} \.{\land} executed \.{=} [ r \.{\in} Replicas \.{\mapsto} \{ \}
+ ]}%
+\@x{\@s{8.2} \.{\land} crtInst \.{=} [ r \.{\in} Replicas \.{\mapsto} 1 ]}%
+ \@x{\@s{8.2} \.{\land} leaderOfInst \.{=} [ r \.{\in} Replicas \.{\mapsto} \{
+ \} ]}%
+ \@x{\@s{8.2} \.{\land} committed \.{=} [ i \.{\in} Instances \.{\mapsto} \{
+ \} ]}%
+\@x{\@s{8.2} \.{\land} ballots \.{=} 1}%
+ \@x{\@s{8.2} \.{\land} preparing \.{=} [ r \.{\in} Replicas \.{\mapsto} \{ \}
+ ]}%
+\@pvspace{8.0pt}%
+ \@x{ NewNext \.{\defeq} \.{\lor} ( AdvanceHistory ( 1 ) \.{\land} Propose (
+ c1 ,\, p3 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 2 ) \.{\land} Propose ( c2 ,\, p1 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 3 ) \.{\land} Phase1Reply ( p3 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 4 ) \.{\land} SendPrepare ( p3 ,\, {\langle}
+ p1 ,\, 1 {\rangle} ,\, \{ p2 ,\, p3 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 5 ) \.{\land} ReplyPrepare ( p2 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 6 ) \.{\land} ReplyPrepare ( p3 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 7 ) \.{\land} PrepareFinalize ( p3 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p2 ,\, p3 \} ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 8 ) \.{\land} SendPrepare ( p2 ,\, {\langle}
+ p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p2 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 9 ) \.{\land} ReplyPrepare ( p1 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 10 ) \.{\land} ReplyPrepare ( p2 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 11 ) \.{\land} PrepareFinalize ( p2 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p2 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 12 ) \.{\land} Phase1Reply ( p1 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 13 ) \.{\land} Phase1Slow ( p2 ,\, {\langle}
+ p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p2 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 14 ) \.{\land} Phase2Reply ( p1 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 15 ) \.{\land} SendPrepare ( p1 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p3 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 16 ) \.{\land} ReplyPrepare ( p3 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 17 ) \.{\land} SendPrepare ( p1 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p3 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 18 ) \.{\land} ReplyPrepare ( p3 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 19 ) \.{\land} ReplyPrepare ( p1 ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 20 ) \.{\land} ReplyPrepare ( p1 ) )}%
+\@y{\@s{0}%
+ answer both ballots
+}%
+\@xx{}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 21 ) \.{\land} PrepareFinalize ( p1 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p3 \} ) )}%
+\@x{ \.{\lor} ( AdvanceHistory ( 22 ) \.{\land} Phase2Reply ( p3 ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 23 ) \.{\land} Phase2Finalize ( p2 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p2 \} ) )}%
+ \@x{ \.{\lor} ( AdvanceHistory ( 24 ) \.{\land} Phase2Finalize ( p1 ,\,
+ {\langle} p1 ,\, 1 {\rangle} ,\, \{ p1 ,\, p3 \} ) )}%
+\@pvspace{8.0pt}%
+\@x{}\bottombar\@xx{}%
+
