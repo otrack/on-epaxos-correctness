@@ -6,7 +6,8 @@
 - A counter-example in TLA+ is provided (under `tla+/CounterExample.cfg`).
 - The counter-example can be executed with the following command: `docker run --rm -ti 0track/epaxos-counter-example:latest`.
 - The algorithm reaches a state in which processes disagree on the dependencies of a command; this breaks safety.
-- A detailed explanation of the problem is available [here](https://drive.google.com/open?id=1dQ_cigMWJ7w9KAJeSYcH3cZoFpbraWxm).
+- A detailed explanation of the problem is available [here](
+http://arxiv.org/abs/1906.10917).
 
 ## FAQ
 
